@@ -1,0 +1,15 @@
+# Local audit snapshots from the original workstation
+/backups/
+
+# Never publish proprietary font files or font archives
+*.ttc
+*.ttf
+*.otf
+*font*.tar
+*font*.tar.gz
+*font*.zip
+
+# Local scratch files
+*.log
+*.deb
+.DS_Store
