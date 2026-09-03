@@ -451,7 +451,7 @@ if ! $skip_onlyoffice; then
   done
 fi
 
-log "Configuring MPV resume playback"
+log "Configuring MPV resume and sequential folder playback"
 mkdir -p "$HOME/.config/mpv"
 mpv_config="$HOME/.config/mpv/mpv.conf"
 touch "$mpv_config"
@@ -459,15 +459,20 @@ mpv_tmp="$work_dir/mpv.conf"
 awk '
   $0 == "# BEGIN ubuntu-system: resume playback" { managed = 1; next }
   $0 == "# END ubuntu-system: resume playback" { managed = 0; next }
+  $0 == "# BEGIN ubuntu-system: playback behavior" { managed = 1; next }
+  $0 == "# END ubuntu-system: playback behavior" { managed = 0; next }
   !managed { print }
 ' "$mpv_config" >"$mpv_tmp"
 cat >>"$mpv_tmp" <<'EOF'
 
-# BEGIN ubuntu-system: resume playback
+# BEGIN ubuntu-system: playback behavior
 # Save the position on every normal exit and restore it for the same media.
 save-position-on-quit=yes
 resume-playback=yes
-# END ubuntu-system: resume playback
+# Queue videos from the same directory and continue in filename order.
+autocreate-playlist=same
+directory-filter-types=video
+# END ubuntu-system: playback behavior
 EOF
 install -m 0644 "$mpv_tmp" "$mpv_config"
 
@@ -505,6 +510,8 @@ fi
 mpv --version >/dev/null
 mpv --list-options 2>/dev/null | grep -q -- '--save-position-on-quit' || \
   die "MPV resume option is unavailable"
+mpv --list-options 2>/dev/null | grep -q -- '--autocreate-playlist' || \
+  die "MPV automatic playlist option is unavailable"
 gh --version >/dev/null
 if ! $skip_onlyoffice; then
   dpkg -V onlyoffice-desktopeditors

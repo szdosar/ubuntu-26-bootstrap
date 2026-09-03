@@ -8,7 +8,7 @@
 - 保留 Ubuntu Sans Mono 作为等宽字体，保留 Noto Color Emoji。
 - 安装 IBus Rime、固定版本的雾凇拼音，并保留 LibPinyin 作为备用。
 - 安装并关联固定版本的 ONLYOFFICE Desktop Editors；不修改 PDF 默认程序。
-- 安装 MPV，退出时保存播放位置，下次自动续播。
+- 安装 MPV，退出时保存播放位置，下次自动续播；播放剧集时自动接着播放同目录下一集。
 - 安装 GitHub CLI，设置 Git 提交身份，并完成 GitHub 浏览器授权。
 - 安装 OpenSSH Server，启用 Ubuntu 的 SSH socket。
 
