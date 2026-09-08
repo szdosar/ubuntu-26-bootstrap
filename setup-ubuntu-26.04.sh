@@ -5,6 +5,8 @@ IFS=$'\n\t'
 
 SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_NAME
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
 readonly EXPECTED_OS_ID="ubuntu"
 readonly EXPECTED_OS_VERSION="26.04"
 readonly FONT_REPO="szdosar/private-font-assets"
@@ -120,6 +122,8 @@ command -v dpkg-deb >/dev/null || die "dpkg-deb is required"
 command -v sha256sum >/dev/null || die "sha256sum is required"
 command -v tar >/dev/null || die "tar is required"
 command -v xdg-mime >/dev/null || die "xdg-mime is required"
+[[ -r "$SCRIPT_DIR/mpv/series-resume.lua" ]] || \
+  die "missing mpv/series-resume.lua; clone or download the complete repository"
 
 validate_fonts() {
   local filename signature family
@@ -274,6 +278,7 @@ log "Backing up current state to $backup_dir"
 
 backup_if_present "$HOME/.config/fontconfig/conf.d/99-microsoft-yahei.conf" fontconfig-99-microsoft-yahei.conf
 backup_if_present "$HOME/.config/mpv/mpv.conf" mpv.conf
+backup_if_present "$HOME/.config/mpv/scripts/series-resume.lua" series-resume.lua
 backup_if_present "$HOME/.config/mimeapps.list" mimeapps.list
 backup_if_present "$HOME/.local/share/applications/mimeapps.list" local-mimeapps.list
 
@@ -475,6 +480,9 @@ directory-filter-types=video
 # END ubuntu-system: playback behavior
 EOF
 install -m 0644 "$mpv_tmp" "$mpv_config"
+mkdir -p "$HOME/.config/mpv/scripts"
+install -m 0644 "$SCRIPT_DIR/mpv/series-resume.lua" \
+  "$HOME/.config/mpv/scripts/series-resume.lua"
 
 for mime in \
   video/mp4 video/x-matroska video/webm video/x-msvideo video/mpeg \
