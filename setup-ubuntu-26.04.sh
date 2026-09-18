@@ -124,6 +124,8 @@ command -v tar >/dev/null || die "tar is required"
 command -v xdg-mime >/dev/null || die "xdg-mime is required"
 [[ -r "$SCRIPT_DIR/mpv/series-resume.lua" ]] || \
   die "missing mpv/series-resume.lua; clone or download the complete repository"
+[[ -r "$SCRIPT_DIR/mpv/chapter-skip.lua" ]] || \
+  die "missing mpv/chapter-skip.lua; clone or download the complete repository"
 
 validate_fonts() {
   local filename signature family
@@ -279,6 +281,7 @@ log "Backing up current state to $backup_dir"
 backup_if_present "$HOME/.config/fontconfig/conf.d/99-microsoft-yahei.conf" fontconfig-99-microsoft-yahei.conf
 backup_if_present "$HOME/.config/mpv/mpv.conf" mpv.conf
 backup_if_present "$HOME/.config/mpv/scripts/series-resume.lua" series-resume.lua
+backup_if_present "$HOME/.config/mpv/scripts/chapter-skip.lua" chapter-skip.lua
 backup_if_present "$HOME/.config/mimeapps.list" mimeapps.list
 backup_if_present "$HOME/.local/share/applications/mimeapps.list" local-mimeapps.list
 
@@ -483,6 +486,8 @@ install -m 0644 "$mpv_tmp" "$mpv_config"
 mkdir -p "$HOME/.config/mpv/scripts"
 install -m 0644 "$SCRIPT_DIR/mpv/series-resume.lua" \
   "$HOME/.config/mpv/scripts/series-resume.lua"
+install -m 0644 "$SCRIPT_DIR/mpv/chapter-skip.lua" \
+  "$HOME/.config/mpv/scripts/chapter-skip.lua"
 
 for mime in \
   video/mp4 video/x-matroska video/webm video/x-msvideo video/mpeg \
@@ -520,6 +525,8 @@ mpv --list-options 2>/dev/null | grep -q -- '--save-position-on-quit' || \
   die "MPV resume option is unavailable"
 mpv --list-options 2>/dev/null | grep -q -- '--autocreate-playlist' || \
   die "MPV automatic playlist option is unavailable"
+[[ -r "$HOME/.config/mpv/scripts/chapter-skip.lua" ]] || \
+  die "MPV chapter-skip script installation failed"
 gh --version >/dev/null
 if ! $skip_onlyoffice; then
   dpkg -V onlyoffice-desktopeditors
