@@ -480,6 +480,9 @@ resume-playback=yes
 # Queue videos from the same directory and continue in filename order.
 autocreate-playlist=same
 directory-filter-types=video
+# Prefer Chinese subtitle tracks when language metadata is available.
+slang=zh-Hans,zh-CN,zh-SG,zh,zho,chi,zh-Hant,zh-TW,zh-HK
+subs-with-matching-audio=yes
 # END ubuntu-system: playback behavior
 EOF
 install -m 0644 "$mpv_tmp" "$mpv_config"
