@@ -126,6 +126,8 @@ command -v xdg-mime >/dev/null || die "xdg-mime is required"
   die "missing mpv/series-resume.lua; clone or download the complete repository"
 [[ -r "$SCRIPT_DIR/mpv/chapter-skip.lua" ]] || \
   die "missing mpv/chapter-skip.lua; clone or download the complete repository"
+[[ -r "$SCRIPT_DIR/mpv/prefer-simplified-subs.lua" ]] || \
+  die "missing mpv/prefer-simplified-subs.lua; clone or download the complete repository"
 
 validate_fonts() {
   local filename signature family
@@ -282,6 +284,7 @@ backup_if_present "$HOME/.config/fontconfig/conf.d/99-microsoft-yahei.conf" font
 backup_if_present "$HOME/.config/mpv/mpv.conf" mpv.conf
 backup_if_present "$HOME/.config/mpv/scripts/series-resume.lua" series-resume.lua
 backup_if_present "$HOME/.config/mpv/scripts/chapter-skip.lua" chapter-skip.lua
+backup_if_present "$HOME/.config/mpv/scripts/prefer-simplified-subs.lua" prefer-simplified-subs.lua
 backup_if_present "$HOME/.config/mimeapps.list" mimeapps.list
 backup_if_present "$HOME/.local/share/applications/mimeapps.list" local-mimeapps.list
 
@@ -491,6 +494,8 @@ install -m 0644 "$SCRIPT_DIR/mpv/series-resume.lua" \
   "$HOME/.config/mpv/scripts/series-resume.lua"
 install -m 0644 "$SCRIPT_DIR/mpv/chapter-skip.lua" \
   "$HOME/.config/mpv/scripts/chapter-skip.lua"
+install -m 0644 "$SCRIPT_DIR/mpv/prefer-simplified-subs.lua" \
+  "$HOME/.config/mpv/scripts/prefer-simplified-subs.lua"
 
 for mime in \
   video/mp4 video/x-matroska video/webm video/x-msvideo video/mpeg \
