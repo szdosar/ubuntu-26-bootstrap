@@ -477,8 +477,8 @@ cat >>"$mpv_tmp" <<'EOF'
 # Save the position on every normal exit and restore it for the same media.
 save-position-on-quit=yes
 resume-playback=yes
-# Queue videos from the same directory and continue in filename order.
-autocreate-playlist=same
+# The series script queues only matching title/season SxxExx episodes.
+autocreate-playlist=no
 directory-filter-types=video
 # Prefer Chinese subtitle tracks when language metadata is available.
 slang=zh-Hans,zh-CN,zh-SG,zh,zho,chi,zh-Hant,zh-TW,zh-HK
